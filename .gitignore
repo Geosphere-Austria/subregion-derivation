@@ -1,0 +1,19 @@
+# code
+.vscode/*
+# Python
+*.pyc
+# R
+.Rproj.user
+.Rhistory
+# data
+*.csv
+*.tab
+*.txt
+*.feather
+*.rds
+*.nc
+*.tif
+*.gpkg
+# plots
+*.png
+*.pdf
