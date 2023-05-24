@@ -97,11 +97,15 @@ and `SPEI30_yearstd`, respectively.
 
 Geomorphometric indices are derived from an ALS-DTM with a spatial resolution of 10 meters using
 [`gdaldem`](https://gdal.org/programs/gdaldem.html) and [SAGA GIS](https://saga-gis.sourceforge.io/).
-See https://gitlab.com/Rexthor/dtm-processing for details.
 
 The data set has been reprojected from
 MGI / Austria Lambert ([EPSG:31287](https://epsg.io/31287)) to
-ETRS89 / Austria Lambert ([EPSG:3416](https://epsg.io/3416)).
+ETRS89 / Austria Lambert ([EPSG:3416](https://epsg.io/3416)) to
+match the CRS of the climate data sets.
+
+The computed terrain indices have been aggregated using different aggregation functions as available in gdal ≥ 3.3.0.
+
+See https://gitlab.com/Rexthor/dtm-processing for details.
 
 | Feature name                  | Filename appendix    | Tool       | Documentaton                                                               |
 | :---------------------------: | :------------------: | :--------: | :------------------------------------------------------------------------: |
