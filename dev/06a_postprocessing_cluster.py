@@ -1,0 +1,33 @@
+"""Postprocess cluster output into dataframe for feature importance analysis"""
+from pathlib import Path
+import xarray as xr
+import pandas as pd
+import rioxarray
+
+keys = [
+    "2792936",  # 7 cluster
+    "50143028",  # 4 cluster
+]
+
+davars = xr.load_dataarray(
+    "dat/interim/03_feature_definition/core_variables_mean_t1_r0.8.nc"
+)
+for key in keys:
+    out_path = f"dat/interim/06_postprocessing/df_cluster_out_{key}.feather"
+    out_path_gt = f"dat/interim/06_postprocessing/da_cluster_out_{key}.tif"
+    for file in Path(
+        "dat/interim/05_hyperparametertuning/experiment_hdbscan_hyperparams"
+    ).rglob(f"cluster_out_{key}.nc"):
+        daclust = xr.load_dataarray(file)
+        daclust = daclust.transpose("y", "x")
+        daclust = daclust.rio.write_crs(3416)
+        daclust.rio.to_raster(out_path_gt)
+        dfvars = davars.to_dataframe().reset_index()
+        dfclust = daclust.to_dataframe().reset_index()
+
+        dfraw = pd.concat([dfvars, dfclust], axis=0)
+        dffin = dfraw.pivot(
+            index=["x", "y"], values="climate_indicator", columns="variable"
+        ).reset_index()
+        # save with feather
+        dffin.to_feather(out_path)
