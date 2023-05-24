@@ -66,7 +66,7 @@ The following data sets have been used:
 - SPARTACUS ([doi:10.1007/s00704-015-1411-4](https://doi.org/10.1007/s00704-015-1411-4), [doi:10.1007/s00704-017-2093-x](https://doi.org/10.1007/s00704-017-2093-x))
 - WINFORE ([doi:10.5194/hess-20-1211-2016](https://doi.org/10.5194/hess-20-1211-2016))
 - SNOWGRID ([doi:10.3390/atmos11121330](https://doi.org/10.3390/atmos11121330))
-- ALS-DTM
+- a digital terrain model derived from airborne laser scanning (ALS-DTM)
 
 All climate data sets are available through the [GeoSphere Austria Data Hub](https://data.hub.zamg.ac.at/).
 The elevation data set is avaliable through the Austrian Open Government Data Platform
