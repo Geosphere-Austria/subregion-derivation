@@ -5,16 +5,17 @@
 Climate indices are computed on the basis of meteorological progenitor parameters.
 These progenitor parameters are available from 1961 onwards on a daily basis, and on
 a consistent grid across Austria with a spatial resolution of 1 km.
-The temporal resolution of climate indices depends on the index definition.
-Many indices are already defined for a time period of one year.
+
+The original temporal resolution of the climate indices used depends on the index
+definition. Many indices are already defined for a time period of one year.
 Most other indicators are aggregated to annual resolution.
 Indicators with monthly resolution are treated as a separate variable for each month
-(e.g.: `ETR` => `ETR_01`, `ETR_02`, ..., `ETR_12`)
-
+(e.g.: `ETR` &rarr; `ETR_01`, `ETR_02`, ..., `ETR_12`).
 Indicators defined on a daily basis are aggregated annually using both mean and standard
-deviation as aggregation function.
-For example, the API is aggregated accoring to the index definition, and is then aggregated
-to an annual resolution as `api_yearmean`, `api_yearstd`.
+deviation as aggregation functions.
+For example, the 30-day standardized precipitation-evaporation index is computed according
+to the index definition, and is then aggregated to an annual resolution as `SPEI30_yearmean`
+and `SPEI30_yearstd`, respectively.
 
 | variable                                                                          | abbreviation                   | temporal resolution | source    | progenitor parameter        |
 | :-------------------------------------------------------------------------------- | :----------------------------- | :-----------------: | :-------: | :-------------------------- |
@@ -84,7 +85,7 @@ to an annual resolution as `api_yearmean`, `api_yearstd`.
 | precipitation of coldest quarter                                                  | bio19                          | y                   | SPARTACUS | precipitation               |
 | annual mean of reference evapotranspiration                                       | ET0_yearmean                   | y                   | WINFORE   | evapotranspiration          |
 | annual standard deviation of reference evapotranspiration                         | ET0_yearstd                    | y                   | WINFORE   | evapotranspiration          |
-| annual mean of 30-day standardized precipitation-evaporation indexs               | SPEI30_yearmean                | y                   | WINFORE   | SPEI                        |
+| annual mean of 30-day standardized precipitation-evaporation index                | SPEI30_yearmean                | y                   | WINFORE   | SPEI                        |
 | annual standard deviation of 30-day standardized precipitation-evaporation index  | SPEI30_yearstd                 | y                   | WINFORE   | SPEI                        |
 | annual mean of 90-day standardized precipitation-evaporation index                | SPEI90_yearmean                | y                   | WINFORE   | SPEI                        |
 | annual standard deviation of 90-day standardized precipitation-evaporation index  | SPEI90_yearstd                 | y                   | WINFORE   | SPEI                        |
