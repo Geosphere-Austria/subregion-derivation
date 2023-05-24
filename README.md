@@ -1,5 +1,10 @@
 # Derivation of characteristic geoclimatic regions through density-based spatial clustering of high-dimensional data
 
+<!-- badges: start -->
+[![Python code style: black](https://img.shields.io/badge/codestyle-black-black)](https://github.com/psf/black)
+[![R code style: tidyverse](https://img.shields.io/badge/codestyle-tidyverse-blue)](https://style.tidyverse.org/)
+<!-- badges: end -->
+
 This repository supplements the manuscript by
 Sebastian Lehner <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-7562-8172)</sup>,
 Katharina Enigl <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-3263-0918)</sup>,
