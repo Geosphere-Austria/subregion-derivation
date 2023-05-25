@@ -1,0 +1,188 @@
+{
+    "experiment_umap_hyperparams": {
+        "dims_pca": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            25,
+            25,
+            25,
+            25,
+            25,
+            30,
+            30,
+            30,
+            30,
+            30
+        ],
+        "umap_n_neighbors_list": [
+            10,
+            20,
+            30,
+            50
+        ],
+        "umap_min_dist_list": [
+            0.1,
+            0.2,
+            0.3,
+            0.5
+        ],
+        "umap_n_components_list": [
+            2
+        ],
+        "hs_min_cluster_size_list": [
+            1000
+        ],
+        "hs_min_samples_list": [
+            1000
+        ],
+        "hs_cluster_selection_epsilon_list": [
+            0.1
+        ]
+    },
+    "experiment_umap_hyperparams2": {
+        "dims_pca": [
+            20,
+            20,
+            20,
+            20,
+            20
+        ],
+        "umap_n_neighbors_list": [
+            10,
+            20,
+            30,
+            50,
+            100,
+            150
+        ],
+        "umap_min_dist_list": [
+            0.01,
+            0.05,
+            0.1
+        ],
+        "umap_n_components_list": [
+            2
+        ],
+        "hs_min_cluster_size_list": [
+            1000
+        ],
+        "hs_min_samples_list": [
+            1000
+        ],
+        "hs_cluster_selection_epsilon_list": [
+            0.1
+        ]
+    },
+    "experiment_hdbscan_hyperparams": {
+        "dims_pca": [
+            20,
+            20,
+            20,
+            20,
+            20
+        ],
+        "umap_n_neighbors_list": [
+            10,
+            50,
+            100,
+            150
+        ],
+        "umap_min_dist_list": [
+            0.01,
+            0.05
+        ],
+        "umap_n_components_list": [
+            2
+        ],
+        "hs_min_cluster_size_list": [
+            500,
+            1000,
+            1500,
+            2000,
+            3000
+        ],
+        "hs_min_samples_list": [
+            500,
+            1000,
+            1500,
+            2000,
+            3000
+        ],
+        "hs_cluster_selection_epsilon_list": [
+            0.1,
+            0.5,
+            0.8,
+            1,
+            2
+        ]
+    },
+    "experiment_umap_param_showcase": {
+        "dims_pca": [
+            20
+        ],
+        "umap_n_neighbors_list": [
+            10,
+            20,
+            30,
+            50,
+            100,
+            150
+        ],
+        "umap_min_dist_list": [
+            0.01,
+            0.05,
+            0.1,
+            0.3,
+            0.5,
+            1
+        ],
+        "umap_n_components_list": [
+            2
+        ],
+        "hs_min_cluster_size_list": [
+            1000
+        ],
+        "hs_min_samples_list": [
+            1000
+        ],
+        "hs_cluster_selection_epsilon_list": [
+            1
+        ]
+    },
+    "experiment_hdbscan_param_showcase": {
+        "dims_pca": [
+            20
+        ],
+        "umap_n_neighbors_list": [
+            50
+        ],
+        "umap_min_dist_list": [
+            0.01
+        ],
+        "umap_n_components_list": [
+            2
+        ],
+        "hs_min_cluster_size_list": [
+            500,
+            1000,
+            2000,
+            3000,
+            4000,
+            5000
+        ],
+        "hs_min_samples_list": [
+            500
+        ],
+        "hs_cluster_selection_epsilon_list": [
+            0.1,
+            0.5,
+            0.8,
+            1,
+            2,
+            5
+        ]
+    }
+}
