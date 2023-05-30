@@ -27,14 +27,14 @@ da_out.x.attrs["units"] = "m"
 da_out.x.attrs["long_name"] = "x coordinate of projection"
 da_out.x.attrs["standard_name"] = "projection_x_coordinate"
 da_out.x.attrs["axis"] = "X"
-da_out.x.attrs["projection"] = "MGI/ Austria Lambert - EPSG:31287"
+da_out.x.attrs["projection"] = "ETRS89 / Austria Lambert - EPSG:3416"
 
 # set attrs for y coordinate
 da_out.y.attrs["units"] = "m"
 da_out.y.attrs["long_name"] = "y coordinate of projection"
 da_out.y.attrs["standard_name"] = "projection_y_coordinate"
 da_out.y.attrs["axis"] = "Y"
-da_out.y.attrs["projection"] = "MGI/ Austria Lambert - EPSG:31287"
+da_out.y.attrs["projection"] = "ETRS89 / Austria Lambert - EPSG:3416"
 
 # set attrs for variable coordinate
 da_out.y.attrs["long_name"] = "str of variable names"
@@ -46,7 +46,7 @@ da_out.attrs["source"] = "calculation and aggregation of different geoclimatic i
 # da_out.attrs["reference"] = ""
 da_out.attrs["contact"] = "Sebastian Lehner (sebastian.lehner@geosphere.at)"
 da_out.attrs["creation_date"] = "2023-05-26"
-da_out.attrs["projection"] = "MGI/ Austria Lambert - EPSG:31287"
+da_out.attrs["projection"] = "ETRS89 / Austria Lambert - EPSG:3416"
 
 da_out.name = "features"
 
