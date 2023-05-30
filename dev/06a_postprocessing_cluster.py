@@ -3,6 +3,7 @@ from pathlib import Path
 import xarray as xr
 import pandas as pd
 import rioxarray
+import numpy as np
 
 keys = [
     "2792936",  # 7 cluster
@@ -21,7 +22,23 @@ for key in keys:
         daclust = xr.load_dataarray(file)
         daclust = daclust.transpose("y", "x")
         daclust = daclust.rio.write_crs(3416)
-        daclust.rio.to_raster(out_path_gt)
+        daclust.name = "geoclimatic clusters"
+        daclust = daclust.where(~np.isnan(daclust.values), -9999).astype(int)
+
+        # sort numbering by frequency
+        new_order = (
+            daclust.to_dataframe()["geoclimatic clusters"].value_counts().reset_index()
+        )["index"]
+        daclust_static = daclust.copy()
+        cluster_ind = 1
+        for key, val in new_order.items():
+            if (val != -9999) and (val != -1):
+                daclust = daclust.where(daclust_static != val, cluster_ind)
+                cluster_ind += 1
+
+        # write crs and save cluster
+        daclust = daclust.rio.write_nodata(-9999)
+        daclust.rio.to_raster(out_path_gt, dtype=np.int16)
         dfvars = davars.to_dataframe().reset_index()
         dfclust = daclust.to_dataframe().reset_index()
 
