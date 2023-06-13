@@ -1,4 +1,4 @@
-# Derivation of characteristic geoclimatic regions through density-based spatial clustering of high-dimensional data
+# Derivation of characteristic physioclimatic regions through density-based spatial clustering of high-dimensional data
 
 <!-- badges: start -->
 [![Python code style: black](https://img.shields.io/badge/codestyle-black-black)](https://github.com/psf/black)
@@ -9,7 +9,9 @@ This repository supplements the manuscript by
 Sebastian Lehner <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-7562-8172)</sup>,
 Katharina Enigl <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-3263-0918)</sup>,
 and
-Matthias Schlögl <sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-4357-523X)</sup>: **Derivation of characteristic geoclimatic regions through density-based spatial clustering of high-dimensional data**.
+Matthias Schlögl
+<sup>[![](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0002-4357-523X)</sup>:
+**Derivation of characteristic physioclimatic regions through density-based spatial clustering of high-dimensional data**.
 
 ## Highlights
 
@@ -41,9 +43,9 @@ subgraph PREPROCESSING
     B[(geomorphometric data)]
     B--->GI1("geomorphometric indices\n(10m)")
     GI1-->|spatial aggregation|GI2("geomorphometric indices\n(1km)")
-    CIagg-->GCD("unified multivariate\ngeoclimatic dataset")
+    CIagg-->GCD("unified multivariate\nphysioclimatic dataset")
     GI2-->GCD
-    GCD-->|correlation analysis|GCDcor{{"reduced multivariate\ngeoclimatic dataset"}}
+    GCD-->|correlation analysis|GCDcor{{"reduced multivariate\nphysioclimatic dataset"}}
 end
 subgraph ML
     direction LR
@@ -51,15 +53,15 @@ subgraph ML
 end
 subgraph CLUSTERING
     direction TB
-    GCDcl[("reduced multivariate\ngeoclimatic dataset")]-->PCA(PCA:<br>linear dimension reduction)
+    GCDcl[("reduced multivariate\nphysioclimatic dataset")]-->PCA(PCA:<br>linear dimension reduction)
     PCA-->UMAP(UMAP:<br>non-linear dimension reduction)
     UMAP-->HDB(HDBSCAN:<br>clustering in UMAP subspace)
-    HDB-->GCC{{geoclimatic clusters}}
+    HDB-->GCC{{physioclimatic clusters}}
 end
 subgraph FEATURE-EXPLANATION
     direction TB
-    GCDfe[("reduced multivariate\ngeoclimatic dataset")]-->RF(random forest)
-    GCCfe[("geoclimatic clusters")]-->RF
+    GCDfe[("reduced multivariate\nphysioclimatic dataset")]-->RF(random forest)
+    GCCfe[("physioclimatic clusters")]-->RF
     RF-->PFI{{permutation feature importance}}
     RF-->NESTEDCV{{performance estimation<br>through nested resampling}}
 end
