@@ -3,7 +3,7 @@ import xarray as xr
 from utils import ordered_variable_list
 
 fname_in = "dat/interim/02_preprocessed_climate_normals/indicators_climate_normals.nc"
-fname_out = "dat/out/features_grid.nc"
+fname_out = "dat/out/physioclimatic_features_grid_AT_average_1992-2021.nc"
 
 # select input features
 da_in = (
@@ -42,7 +42,9 @@ da_out.y.attrs["long_name"] = "str of variable names"
 # set global attrs
 da_out.attrs["time_aggregation_method"] = metric
 da_out.attrs["climate_normal"] = climate_period
-da_out.attrs["source"] = "calculation and aggregation of different geoclimatic indices"
+da_out.attrs[
+    "source"
+] = "calculation and aggregation of different physioclimatic indices"
 # da_out.attrs["reference"] = ""
 da_out.attrs["contact"] = "Sebastian Lehner (sebastian.lehner@geosphere.at)"
 da_out.attrs["creation_date"] = "2023-05-26"

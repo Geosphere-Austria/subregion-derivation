@@ -17,7 +17,7 @@ for key in keys:
     out_path = f"dat/interim/06_postprocessing/df_cluster_out_{key}.feather"
     out_path_gt = f"dat/interim/06_postprocessing/da_cluster_out_{key}.tif"
     for file in Path(
-        "dat/interim/05_hyperparametertuning/experiment_hdbscan_hyperparams"
+        "dat/interim/05_hyperparametertuning/post_bugfix/experiment_hdbscan_hyperparams"
     ).rglob(f"cluster_out_{key}.nc"):
         daclust = xr.load_dataarray(file)
         daclust = daclust.transpose("y", "x")
@@ -37,8 +37,13 @@ for key in keys:
                 cluster_ind += 1
 
         # write crs and save cluster
+        daclust.name = "physioclimatic clusters"
         daclust = daclust.rio.write_nodata(-9999)
         daclust.rio.to_raster(out_path_gt, dtype=np.int16)
+        if key == "2792936":  # save specific primary result
+            daclust.rio.to_raster(
+                "dat/out/physioclimatic_clusters_raster_AT.tif", dtype=np.int16
+            )
         dfvars = davars.to_dataframe().reset_index()
         dfclust = daclust.to_dataframe().reset_index()
 
