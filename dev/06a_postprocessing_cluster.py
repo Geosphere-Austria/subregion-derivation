@@ -31,7 +31,7 @@ for key in keys:
         )["index"]
         daclust_static = daclust.copy()
         cluster_ind = 1
-        for key, val in new_order.items():
+        for _, val in new_order.items():
             if (val != -9999) and (val != -1):
                 daclust = daclust.where(daclust_static != val, cluster_ind)
                 cluster_ind += 1
@@ -40,7 +40,7 @@ for key in keys:
         daclust.name = "physioclimatic clusters"
         daclust = daclust.rio.write_nodata(-9999)
         daclust.rio.to_raster(out_path_gt, dtype=np.int16)
-        if key == "2792936":  # save specific primary result
+        if key == "2792936":  # save specific primary result#
             daclust.rio.to_raster(
                 "dat/out/physioclimatic_clusters_raster_AT.tif", dtype=np.int16
             )
