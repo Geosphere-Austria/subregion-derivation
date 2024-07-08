@@ -1,12 +1,27 @@
-library(tidyverse)
-library(arrow)
-library(ranger)
-library(mlr3)
-library(mlr3learners)
-library(mlr3tuning)
-library(mlr3mbo)
+library("tidyverse")
+library("arrow")
+library("ranger")
+library("mlr3")
+library("mlr3learners")
+library("mlr3tuning")
+library("mlr3mbo")
 
 get_n <- function(x) length(unique(x$umap_hdbscan)) - 1
+
+sfc_as_cols <- function(x, geometry, names = c("x", "y")) {
+  if (missing(geometry)) {
+    geometry <- sf::st_geometry(x)
+  } else {
+    geometry <- rlang::eval_tidy(enquo(geometry), x)
+  }
+  stopifnot(inherits(x, "sf") && inherits(geometry, "sfc_POINT"))
+  ret <- sf::st_coordinates(geometry)
+  ret <- tibble::as_tibble(ret)
+  stopifnot(length(names) == ncol(ret))
+  x <- x[, !names(x) %in% names]
+  ret <- setNames(ret, names)
+  dplyr::bind_cols(x, ret)
+}
 
 read_srd <- function(feather_file) {
   feather_file |>
@@ -139,15 +154,17 @@ theme_srd <- function() {
     )
 }
 
-plot_var <- function(data, vars, colors = lut_reg_col$colors) {
+plot_var <- function(data, vars, colors) {
   df <- data |>
     filter(progenitor %in% vars)
   p <- ggplot(df, aes(x = cluster, y = value, color = cluster, fill = cluster)) +
-    geom_lv(alpha = 0.8, show.legend = FALSE, outlier.shape = NA) +
+    geom_boxplot(alpha = 0.8, show.legend = FALSE, outlier.shape = NA) +
     scale_fill_manual(values = colors) +
     scale_color_manual(values = colors) +
     facet_wrap(~progenitor) +
     theme_srd() +
-    coord_flip()
+    coord_flip() +
+    ylab("") +
+    xlab("")
   return(p)
 }
