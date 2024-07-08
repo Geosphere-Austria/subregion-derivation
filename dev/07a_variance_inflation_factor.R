@@ -1,6 +1,10 @@
-library(glue)
-library(parallel)
-library(car)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# compute variance inflation factor
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+library("glue")
+library("parallel")
+library("car")
 
 source("dev/utils.R")
 

@@ -1,4 +1,4 @@
-"""script to generate heatmap plots"""
+"""generate heatmap plots"""
 from pathlib import Path
 from utils import (
     load_climate_normals_and_reshape,

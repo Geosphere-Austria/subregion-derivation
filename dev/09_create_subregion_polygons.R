@@ -1,4 +1,8 @@
-library(terra)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# polygonize subregion raster
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+library("terra")
 
 # replace valley clusters
 r <- rast("dat/interim/06_postprocessing/da_cluster_out_2792936.tif") |>

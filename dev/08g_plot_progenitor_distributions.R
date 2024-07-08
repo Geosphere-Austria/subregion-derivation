@@ -1,9 +1,13 @@
-library(tidyverse)
-library(lvplot)
-library(arrow)
-library(colorspace)
-library(showtext)
-library(patchwork)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# plot distribution of core parameters
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+library("tidyverse")
+library("lvplot")
+library("arrow")
+library("colorspace")
+library("showtext")
+library("patchwork")
 
 source("dev/utils.R")
 
@@ -113,3 +117,18 @@ p6 <- plot_var(data = progenitors, vars = "snow depth [cm]") +
 pp <- ((p1 | p2) / (p3 | p4) / (p5 | p6))
 
 ggsave("plt/progenitor_distribution.png", pp, width = 180, height = 200, units = "mm", dpi = 300)
+
+tmp <- progenitors |>
+  group_by(cluster, progenitor) |>
+  summarize(median = median(value, na.rm = TRUE)) |>
+  ungroup()
+
+p <- ggplot(tmp, aes(x = progenitor, y = median, group = cluster, color = cluster)) +
+  geom_line() +
+  geom_point() +
+  scale_color_manual(values = lut_reg_col$colors) +
+  theme_linedraw() +
+  scale_y_log10() +
+  theme_srd() +
+  theme(legend.position = "bottom")
+ggsave(filename = "plt/pc_plot.png", plot = p, width = 250, height = 150, units = "mm")

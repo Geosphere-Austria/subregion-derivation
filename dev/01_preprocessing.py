@@ -1,5 +1,5 @@
-"""Preprocess data for the data-driven subregion derivation.
-Processed data is saved under /dat/interim
+"""preprocess data for the data-driven subregion derivation
+processed data is saved under /dat/interim
 """
 from pathlib import Path
 
