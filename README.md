@@ -75,7 +75,7 @@ The following data sets have been used:
 - SNOWGRID ([doi:10.3390/atmos11121330](https://doi.org/10.3390/atmos11121330))
 - a digital terrain model derived from airborne laser scanning (ALS-DTM)
 
-All climate data sets are available through the [GeoSphere Austria Data Hub](https://data.hub.zamg.ac.at/).
+All climate data sets are available through the [GeoSphere Austria Data Hub](https://data.hub.geosphere.at/).
 The elevation data set is avaliable through the Austrian Open Government Data Platform
 [data.gv.at](https://www.data.gv.at/katalog/dataset/land-ktn_digitales-gelandemodell-dgm-osterreich).
 
