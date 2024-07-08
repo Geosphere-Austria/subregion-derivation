@@ -111,7 +111,7 @@ get_inner_tuning <- function(x) {
 
 get_importance <- function(ranger_model) {
   ranger_model$importance() |>
-    tibble::enframe(.) |>
+    tibble::enframe(x = _) |>
     rename(index = name, importance = value) |>
     mutate(type = if_else(grepl("^dtm_", index), "geomorphometry", as.character(NA))) |>
     mutate(type = if_else(grepl("^SPEI", index), "combined", type)) |>
