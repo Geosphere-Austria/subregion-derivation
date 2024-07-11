@@ -64,7 +64,7 @@ features = features.where(~clusters.isnull())
 del features.attrs["NETCDF_DIM_EXTRA"]
 del features.attrs["NETCDF_DIM_variable_DEF"]
 del features.attrs["NETCDF_DIM_variable_VALUES"]
-features.to_netcdf("dat/interim/07_cluster_evaluation/features.nc")
+features.to_netcdf("dat/interim/07_cluster_evaluation/core_variables_r0.8.nc")
 
 slope_ds = xr.load_dataset("dat/interim/01_concat_files/dtm_concat_indices.nc")
 slope_da = slope_ds.sel(variable="dtm_slope_average")
@@ -94,7 +94,7 @@ base_vars = base_vars.assign_coords(dict(base_param=["RR", "T", "slope"])).drop(
 )
 # subselect cluster domain
 base_vars = base_vars.where(~clusters.isnull())
-base_vars.to_netcdf("dat/interim/07_cluster_evaluation/base_params.nc")
+base_vars.to_netcdf("dat/interim/07_cluster_evaluation/base_variables.nc")
 base_vars.name = "value"
 
 base_vars_df = (
@@ -107,4 +107,4 @@ base_vars_df.columns = base_vars_df.columns.droplevel()
 base_vars_df = base_vars_df.reset_index().astype(
     {"x": int, "y": int, "RR": float, "T": float, "slope": float}
 )
-base_vars_df.to_csv("dat/interim/07_cluster_evaluation/base_params.csv")
+base_vars_df.to_csv("dat/interim/07_cluster_evaluation/base_variables.csv")
