@@ -68,12 +68,25 @@ def cluster_to_xda(data, coord, dim):
 dim_pca = 20
 pca = PCA(n_components=dim_pca)  # similar PCA dimension compared to clustering from ml
 features_pca = pca.fit(features_norm.T).components_.T
+expl_var = pca.fit(features_norm.T).explained_variance_ratio_
 # save principal components
 pca_coords = [f"pca_{num+1}" for num in range(dim_pca)]
 principal_components = xr.DataArray(
     data=features_pca, coords=[features_norm.z, pca_coords], dims=["z", "pca_dim"]
 ).unstack("z")
 principal_components.name = "principal components"
+principal_components = principal_components.isel(y=slice(None, None, -1)).to_dataset()
+expl_var = xr.DataArray(
+    data=expl_var,
+    coords=[
+        pca_coords,
+    ],
+    dims=[
+        "pca_dim",
+    ],
+)
+expl_var.name = "explained variance"
+principal_components = principal_components.assign(explained_variance=expl_var)
 principal_components.to_netcdf(
     "dat/interim/07_cluster_evaluation/principal_components_dim20.nc"
 )
