@@ -1,7 +1,11 @@
 """script to assign attributes to the core variable output data for publishing on zenodo"""
 
 import xarray as xr
-from ..utils import ordered_variable_list
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from utils import ordered_variable_list
 
 fname_in = "dat/interim/02_preprocessed_climate_normals/indicators_climate_normals.nc"
 fname_out = "dat/out/physioclimatic_features_grid_AT_average_1992-2021.nc"

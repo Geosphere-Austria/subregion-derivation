@@ -5,8 +5,11 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 import proplot as pplt
+import os
+import sys
 
-from ..utils import load_embedding_csv, load_cluster_nc, get_params_from_xrda_cluster
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from utils import load_embedding_csv, load_cluster_nc, get_params_from_xrda_cluster
 
 exp_path = Path(
     "dat/interim/" "05_hyperparametertuning/experiment_hdbscan_param_showcase"

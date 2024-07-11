@@ -7,7 +7,11 @@ import proplot as pplt
 import pandas as pd
 import seaborn as sns
 
-from ..utils import (
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from utils import (
     plot_composit_umap_hdbscan,
     load_embedding_csv,
     load_cluster_nc,

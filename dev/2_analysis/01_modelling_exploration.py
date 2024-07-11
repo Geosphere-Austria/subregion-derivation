@@ -2,7 +2,11 @@
 
 from pathlib import Path
 
-from ..utils import (
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from utils import (
     load_climate_normals_and_reshape,
     create_empty_dataset_for_clusters,
     calc_kmeans_clusters,

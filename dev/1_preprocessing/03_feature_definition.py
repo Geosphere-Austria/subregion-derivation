@@ -4,7 +4,11 @@ from pathlib import Path
 
 import numpy as np
 
-from ..utils import (
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from utils import (
     load_climate_normals_and_reshape,
     drop_vars_with_too_many_nans,
     drop_vars_with_high_colinearities,
@@ -13,7 +17,6 @@ from ..utils import (
 
 
 if __name__ == "__main__":
-
     filter_ = True
 
     CLIM_PERIOD = 1

@@ -7,7 +7,11 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from ..utils import (
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from utils import (
     apply_hdbscan,
     apply_pca,
     apply_umap,
