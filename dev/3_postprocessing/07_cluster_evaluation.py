@@ -19,8 +19,8 @@ from sklearn.metrics import (
 
 # load variable per clusters
 clusters_ml_path = "dat/out/physioclimatic_clusters_raster_AT.tif"
-features_path = "dat/interim/07_cluster_evaluation/features.nc"
-base_params_path = "dat/interim/07_cluster_evaluation/base_params.nc"
+features_path = "dat/interim/07_cluster_evaluation/core_variables_r0.8.nc"
+base_params_path = "dat/interim/07_cluster_evaluation/base_variables.nc"
 clusters_ml = rioxarray.open_rasterio(clusters_ml_path).squeeze()
 clusters_ml = clusters_ml.where(clusters_ml != -9999, np.nan)
 clusters_ml = clusters_ml.drop(["band", "spatial_ref"])
@@ -68,6 +68,15 @@ def cluster_to_xda(data, coord, dim):
 dim_pca = 20
 pca = PCA(n_components=dim_pca)  # similar PCA dimension compared to clustering from ml
 features_pca = pca.fit(features_norm.T).components_.T
+# save principal components
+pca_coords = [f"pca_{num+1}" for num in range(dim_pca)]
+principal_components = xr.DataArray(
+    data=features_pca, coords=[features_norm.z, pca_coords], dims=["z", "pca_dim"]
+).unstack("z")
+principal_components.name = "principal components"
+principal_components.to_netcdf(
+    "dat/interim/07_cluster_evaluation/principal_components_dim20.nc"
+)
 print(f"{features_pca.shape = }")  # (spatialm dim_pca)
 # repeat same steps from before
 clusters_km = kmeans(input_=features_pca, n_clusters=7)
@@ -80,7 +89,7 @@ unique_clusters = np.unique(clusters_ml)[np.where(np.unique(clusters_ml) > 0)[0]
 cluster_combinations = [(i, j) for i, j in combinations(unique_clusters, 2)]
 
 base_params_df = pd.read_csv(
-    "dat/interim/07_cluster_evaluation/base_params.csv", index_col=0
+    "dat/interim/07_cluster_evaluation/base_variables.csv", index_col=0
 )
 variables_dict = {
     "RR": base_params_df[["y", "x", "RR"]],
