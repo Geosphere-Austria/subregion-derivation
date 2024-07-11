@@ -1,6 +1,6 @@
 """generate heatmap plots"""
 from pathlib import Path
-from utils import (
+from ..utils import (
     load_climate_normals_and_reshape,
     drop_vars_with_too_many_nans,
     ordered_variable_list,

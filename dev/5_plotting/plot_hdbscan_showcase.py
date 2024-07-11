@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import proplot as pplt
 
-from utils import load_embedding_csv, load_cluster_nc, get_params_from_xrda_cluster
+from ..utils import load_embedding_csv, load_cluster_nc, get_params_from_xrda_cluster
 
 exp_path = Path(
     "dat/interim/" "05_hyperparametertuning/experiment_hdbscan_param_showcase"

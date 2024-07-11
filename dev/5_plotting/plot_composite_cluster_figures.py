@@ -1,4 +1,4 @@
-"""plotting routine for finalized figures"""
+"""plotting routine for composite cluster figures"""
 from pathlib import Path
 
 import numpy as np
@@ -6,7 +6,7 @@ import proplot as pplt
 import pandas as pd
 import seaborn as sns
 
-from utils import (
+from ..utils import (
     plot_composit_umap_hdbscan,
     load_embedding_csv,
     load_cluster_nc,

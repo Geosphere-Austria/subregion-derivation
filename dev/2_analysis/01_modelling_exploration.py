@@ -1,7 +1,7 @@
 """modelling of subregions with various clustering approaches"""
 from pathlib import Path
 
-from utils import (
+from ..utils import (
     load_climate_normals_and_reshape,
     create_empty_dataset_for_clusters,
     calc_kmeans_clusters,

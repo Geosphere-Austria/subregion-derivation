@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import proplot as pplt
 
-from utils import load_embedding_csv, load_cluster_nc, get_params_from_xrda_cluster
+from ..utils import load_embedding_csv, load_cluster_nc, get_params_from_xrda_cluster
 
 colorscale = input("chose color scale ('color' or 'gray'): ")
 

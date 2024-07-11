@@ -3,7 +3,7 @@ from pathlib import Path
 
 import numpy as np
 
-from utils import (
+from ..utils import (
     load_climate_normals_and_reshape,
     drop_vars_with_too_many_nans,
     drop_vars_with_high_colinearities,
