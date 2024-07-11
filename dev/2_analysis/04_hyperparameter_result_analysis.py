@@ -1,4 +1,5 @@
 """small script to analyse hdbscan good results table"""
+
 from tabulate import tabulate
 import pandas as pd
 

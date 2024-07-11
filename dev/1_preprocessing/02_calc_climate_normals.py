@@ -1,4 +1,5 @@
 """calculate climate normals for the use in clustering"""
+
 from pathlib import Path
 
 import numpy as np

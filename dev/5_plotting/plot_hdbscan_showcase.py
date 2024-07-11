@@ -1,4 +1,5 @@
 """plotting umap showcase for different parameters"""
+
 from pathlib import Path
 
 import pandas as pd

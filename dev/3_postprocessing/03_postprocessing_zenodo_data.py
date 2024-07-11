@@ -1,4 +1,5 @@
 """script to assign attributes to the core variable output data for publishing on zenodo"""
+
 import xarray as xr
 from ..utils import ordered_variable_list
 
@@ -42,9 +43,9 @@ da_out.y.attrs["long_name"] = "str of variable names"
 # set global attrs
 da_out.attrs["time_aggregation_method"] = metric
 da_out.attrs["climate_normal"] = climate_period
-da_out.attrs[
-    "source"
-] = "calculation and aggregation of different physioclimatic indices"
+da_out.attrs["source"] = (
+    "calculation and aggregation of different physioclimatic indices"
+)
 # da_out.attrs["reference"] = ""
 da_out.attrs["contact"] = "Sebastian Lehner (sebastian.lehner@geosphere.at)"
 da_out.attrs["creation_date"] = "2023-05-26"

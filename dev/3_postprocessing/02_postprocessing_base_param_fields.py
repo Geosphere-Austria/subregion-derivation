@@ -1,4 +1,5 @@
 """script to generate temperature, precipitation and elevation aggregates"""
+
 import xarray as xr
 import pandas as pd
 import rioxarray
