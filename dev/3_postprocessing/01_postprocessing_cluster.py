@@ -1,10 +1,12 @@
-"""postprocess cluster output into dataframe for feature importance analysis"""
+"""Postprocess cluster output into dataframe for feature importance analysis"""
 
 from pathlib import Path
-import xarray as xr
+
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import rioxarray
-import numpy as np
+import xarray as xr
 
 keys = [
     "2792936",  # 7 cluster
@@ -48,9 +50,18 @@ for key in keys:
         dfvars = davars.to_dataframe().reset_index()
         dfclust = daclust.to_dataframe().reset_index()
 
+        # some nan cleaning
+        dfclust = dfclust.replace(-9999.0, np.NaN)
+        dfvars = dfvars.dropna()
+        dfclust = dfclust.dropna()
         dfraw = pd.concat([dfvars, dfclust], axis=0)
-        dffin = dfraw.pivot(
+
+        dffinvars = dfvars.pivot(
             index=["x", "y"], values="climate_indicator", columns="variable"
-        ).reset_index()
+        )
+        dffinclust = dfclust.pivot(
+            index=["x", "y"], values="physioclimatic clusters", columns="variable"
+        )
         # save with feather
+        dffin = pd.concat([dffinvars, dffinclust], axis=1).reset_index()
         dffin.to_feather(out_path)
