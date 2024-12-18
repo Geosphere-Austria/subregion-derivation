@@ -1,10 +1,10 @@
 name: subregion-derivation
 channels:
   - conda-forge
-  - defaults
 dependencies:
   - pip=21.3.1
   - python=3.9.7
+  - scipy=1.10.1
   - scikit-learn=1.0.2
   - pip:
     - black==21.10b0
