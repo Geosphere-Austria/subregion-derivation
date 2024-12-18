@@ -1,10 +1,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# plot distribution of core parameters
+# plot distribution of progenitor parameters
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 library("tidyverse")
+library("stars")
+library("sf")
 library("lvplot")
-library("arrow")
 library("colorspace")
 library("showtext")
 library("patchwork")
@@ -14,121 +15,92 @@ source("dev/utils.R")
 font_add("TeXGyreHeros", "~/.fonts/Tex-Gyre-Heros/texgyreheros-regular.otf")
 showtext_auto()
 
-dat_pth <- list.files(
-  path = "dat/interim/06_postprocessing",
-  pattern = "df_[a-zA-Z0-9]+_t1.feather",
-  full.names = TRUE
+convert_stars <- function(x) {
+  x |>
+    st_as_sf(as_points = TRUE) |>
+    sfc_as_cols() |>
+    st_drop_geometry() |>
+    as_tibble()
+}
+
+uh_col <- tribble(
+  ~cluster_uh, ~cluster, ~colors,
+  -1, -1, rgb(0.4, 0.4, 0.4), # "#666666"
+  1, 1, rgb(0.33, 0.66, 0.40), # "#54A866"
+  2, 2, rgb(0.77, 0.31, 0.32), # "#C44F52"
+  3, 3, rgb(0.27, 0.42, 0.65), # "#456BA6"
+  4, 7, rgb(0.36, 0.31, 0.56), # "#5C4F8F"
+  5, 5, rgb(0.39, 0.71, 0.81), # "#63B5CF"
+  6, 6, rgb(0.80, 0.73, 0.46), # "#CCBA75"
+  7, 4, rgb(0.67, 0.61, 0.87) # "#AB9CDE"
 )
 
-lut_reg_col <- tribble(
-  ~id, ~cluster, ~colors,
-  -1, -1, rgb(0.4, 0.4, 0.4),
-  0, 5, rgb(0.33, 0.66, 0.40),
-  1, 1, rgb(0.77, 0.31, 0.32),
-  2, 6, rgb(0.27, 0.42, 0.65),
-  3, 3, rgb(0.36, 0.31, 0.56),
-  4, 7, rgb(0.39, 0.71, 0.81),
-  5, 4, rgb(0.80, 0.73, 0.46),
-  6, 2, rgb(0.67, 0.61, 0.87)
+km_col <- tribble(
+  ~cluster_km, ~cluster, ~colors,
+  1, 1, "#999999",
+  2, 2, "#009e73",
+  3, 3, "#e69f00",
+  4, 4, "#0072b2",
+  5, 5, "#cc79a7",
+  6, 6, "#d55e00",
+  7, 7, "#56b4e9"
 )
 
-nam <- str_extract(basename(dat_pth), "df_([A-Za-z]+)", group = 1)
+basepar <- read_ncdf("dat/interim/07_cluster_evaluation/base_variables.nc") |>
+  convert_stars() |>
+  mutate(RR = RR * 365)
 
-clusters <- read_feather("dat/interim/06_postprocessing/df_cluster_out_2792936.feather") |>
-  select(x, y, id = umap_hdbscan) |>
-  drop_na()
+clusters_uh <- read_stars("dat/out/physioclimatic_clusters_raster_AT.tif") |>
+  convert_stars() |>
+  rename(cluster_uh = physioclimatic_clusters_raster_AT.tif)
 
-progenitors <- map(dat_pth, read_feather) |>
-  reduce(left_join, by = c("x", "y")) |>
-  left_join(clusters, by = c("x", "y")) |>
-  drop_na() |>
-  mutate(SR = SR * 100) |>
-  mutate(HS = if_else(HS > 5, NA, HS * 100)) |>
-  mutate(SWE = if_else(SWE > 1000, NA, SWE)) |>
-  mutate(RR = RR * 365) |>
+clusters_km <- read_stars("dat/out/pca_kmeans_clusters_raster_at.tif") |>
+  convert_stars() |>
+  rename(cluster_km = pca_kmeans_clusters_raster_at.tif)
+
+progenitors <- basepar |>
+  left_join(clusters_uh, by = join_by(x, y)) |>
+  left_join(clusters_km, by = join_by(x, y)) |>
   select(-x, -y) |>
-  pivot_longer(dem:T, names_to = "progenitor") |>
-  left_join(lut_reg_col, by = "id") |>
-  mutate(cluster = as.factor(cluster)) |>
-  mutate(progenitor = gsub("^dem$", "elevation [m]", progenitor)) |>
-  mutate(progenitor = gsub("^ET0$", "reference evapotranspiration [kg/m²]", progenitor)) |>
+  pivot_longer(RR:slope, names_to = "progenitor") |>
   mutate(progenitor = gsub("^RR$", "precipitation [mm]", progenitor)) |>
   mutate(progenitor = gsub("^T$", "temperature [°C]", progenitor)) |>
-  mutate(progenitor = gsub("^HS$", "snow depth [cm]", progenitor)) |>
-  mutate(progenitor = gsub("^SR$", "relative sunshine duration [%]", progenitor)) |>
-  mutate(progenitor = gsub("^SWE$", "snow water equivalent [kg/m²]", progenitor))
+  mutate(progenitor = gsub("^slope$", "slope [°]", progenitor))
 
-minor_breaks <- rep(1:9, 21) * (10^rep(-10:10, each = 9))
+progenitors |>
+  filter(progenitor == "precipitation [mm]") |>
+  group_by(cluster_uh) |>
+  summarize(rr_max = max(value))
 
-p1 <- plot_var(data = progenitors, vars = "elevation [m]") +
-  # scale_y_log10(
-  #  name = "",
-  #  breaks = rep(c(1:3, 5), 21) * 10^(-10:10),
-  #  minor_breaks = minor_breaks,
-  # ) +
-  ylab("") +
-  xlab("")
+pp1 <- progenitors |>
+  select(-cluster_km) |>
+  left_join(uh_col, by = "cluster_uh") |>
+  mutate(cluster = as.factor(cluster)) |>
+  drop_na()
 
-p2 <- plot_var(data = progenitors, vars = "precipitation [mm]") +
-  # scale_y_log10(
-  #  name = "",
-  #  breaks = rep(c(1:3, 5), 21) * 10^(-10:10),
-  #  minor_breaks = minor_breaks,
-  # ) +
-  ylab("") +
-  xlab("") +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  ) +
-  coord_flip(ylim = c(470, 2950))
+pp2 <- progenitors |>
+  select(-cluster_uh) |>
+  left_join(km_col, by = "cluster_km") |>
+  mutate(cluster = as.factor(cluster)) |>
+  drop_na()
 
-p3 <- plot_var(data = progenitors, vars = "relative sunshine duration [%]") +
-  ylab("")
+rm(basepar, clusters_uh, clusters_km, progenitors)
 
-p4 <- plot_var(data = progenitors, vars = "temperature [°C]") +
-  xlab("") +
-  ylab("") +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  )
+p1 <- plot_var(data = pp1, vars = "slope [°]", colors = uh_col$colors) +
+  scale_y_continuous(breaks = seq(0, 50, 10))
+p2 <- plot_var(data = pp1, vars = "precipitation [mm]", colors = uh_col$colors) +
+  scale_y_continuous(breaks = seq(0, 2500, 500), limits = c(450, 2900))
+p3 <- plot_var(data = pp1, vars = "temperature [°C]", colors = uh_col$colors)
 
-p5 <- plot_var(data = progenitors, vars = "reference evapotranspiration [kg/m²]") +
-  xlab("") +
-  ylab("")
+p4 <- plot_var(data = pp2, vars = "slope [°]", colors = km_col$colors) +
+  scale_x_discrete(position = "top") +
+  scale_y_continuous(breaks = seq(0, 50, 10))
+p5 <- plot_var(data = pp2, vars = "precipitation [mm]", colors = km_col$colors) +
+  scale_x_discrete(position = "top") +
+  scale_y_continuous(breaks = seq(0, 2500, 500), limits = c(450, 2900))
+p6 <- plot_var(data = pp2, vars = "temperature [°C]", colors = km_col$colors) +
+  scale_x_discrete(position = "top")
 
-p6 <- plot_var(data = progenitors, vars = "snow depth [cm]") +
-  scale_y_log10(
-    name = "",
-    breaks = 10^(-10:10),
-    minor_breaks = minor_breaks
-  ) +
-  xlab("") +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  ) +
-  coord_flip(ylim = c(0.1, 400.5))
-
-pp <- ((p1 | p2) / (p3 | p4) / (p5 | p6))
+pp <- ((p1 | p4) / (p2 | p5) / (p3 | p6))
 
 ggsave("plt/progenitor_distribution.png", pp, width = 180, height = 200, units = "mm", dpi = 300)
-
-tmp <- progenitors |>
-  group_by(cluster, progenitor) |>
-  summarize(median = median(value, na.rm = TRUE)) |>
-  ungroup()
-
-p <- ggplot(tmp, aes(x = progenitor, y = median, group = cluster, color = cluster)) +
-  geom_line() +
-  geom_point() +
-  scale_color_manual(values = lut_reg_col$colors) +
-  theme_linedraw() +
-  scale_y_log10() +
-  theme_srd() +
-  theme(legend.position = "bottom")
-ggsave(filename = "plt/pc_plot.png", plot = p, width = 250, height = 150, units = "mm")

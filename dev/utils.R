@@ -156,15 +156,17 @@ theme_srd <- function() {
 
 plot_var <- function(data, vars, colors) {
   df <- data |>
-    filter(progenitor %in% vars)
-  p <- ggplot(df, aes(x = cluster, y = value, color = cluster, fill = cluster)) +
+    filter(progenitor %in% vars) |>
+    mutate(progenitor = gsub("\\[", "\\[\\[", progenitor)) |>
+    separate(col = progenitor, into = c("progenitor", "unit"), sep = " \\[")
+  p <- ggplot(df, aes(x = cluster, y = value, color = colors, fill = colors)) +
     geom_boxplot(alpha = 0.8, show.legend = FALSE, outlier.shape = NA) +
-    scale_fill_manual(values = colors) +
-    scale_color_manual(values = colors) +
+    scale_fill_identity() +
+    scale_color_identity() +
     facet_wrap(~progenitor) +
     theme_srd() +
     coord_flip() +
-    ylab("") +
-    xlab("")
+    ylab(label = unique(df$unit)) +
+    xlab(label = "cluster number")
   return(p)
 }
