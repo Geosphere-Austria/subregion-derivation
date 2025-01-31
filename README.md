@@ -1,7 +1,8 @@
 # Derivation of characteristic physioclimatic regions through density-based spatial clustering of high-dimensional data
 
 <!-- badges: start -->
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7983023.svg)](https://doi.org/10.5281/zenodo.7983023)
+[![DOI paper](https://zenodo.org/badge/DOI/10.1016/j.envsoft.2025.106324.svg)](https://doi.org/10.1016/j.envsoft.2025.106324)
+[![DOI data](https://zenodo.org/badge/DOI/10.5281/zenodo.7983023.svg)](https://doi.org/10.5281/zenodo.7983023)
 [![Python code style: black](https://img.shields.io/badge/codestyle-black-black)](https://github.com/psf/black)
 [![R code style: tidyverse](https://img.shields.io/badge/codestyle-tidyverse-blue)](https://style.tidyverse.org/)
 <!-- badges: end -->
